@@ -1,0 +1,45 @@
+# Build artifacts
+bin/
+obj/
+out/
+
+# NuGet Packages
+*.nupkg
+*.snupkg
+packages/
+project.lock.json
+project.assets.json
+
+# User-specific and IDE files
+.vs/
+.vscode/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Logs and Debugging Files
+*.log
+*.tlog
+*.dmp
+*.pdb
+
+# Temporary Files
+*.cache
+*.tmp
+
+# Environment-specific configuration
+appsettings.*.json
+!appsettings.json  # Keep the default appsettings.json but ignore environment-specific ones
+
+# JetBrains Rider / Resharper
+.idea/
+*.DotSettings.user
+
+# MacOS and Linux
+.DS_Store
+*.swp
+
+
+
+
