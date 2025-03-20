@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using MyTaskApi.Domain.Enums;
 using MyTaskApi.Persistence.Repositories.Tasks;
 
 namespace MyTaskApi.Controllers;
@@ -8,12 +9,6 @@ namespace MyTaskApi.Controllers;
 [Route("[controller]")]
 public class TasksController(ITaskRepository taskRepository) : ControllerBase
 {
-  //CRUD 
-  // POST 
-  // GET 
-  // GET 
-  // PUT 
-  // DELETE
   ITaskRepository _taskRepository => taskRepository;
 
   [HttpPost]
@@ -62,24 +57,53 @@ public class TasksController(ITaskRepository taskRepository) : ControllerBase
     return NoContent();
   }
 
-  public record CreateTaskRequest(string title, string description)
+  public record CreateTaskRequest(
+    string title,
+    string description,
+    int taskStatus,
+    DateTime dueDate
+    )
   {
     public Domain.Task ToDomain()
     {
-      return new Domain.Task() { Title = title, Description = description };
+      return new Domain.Task()
+      {
+        Title = title,
+        Description = description,
+        TaskStatus = (Domain.Enums.TaskStatus)taskStatus,
+        DueDate = DateTime.SpecifyKind(dueDate, DateTimeKind.Utc)
+      };
     }
 
     public Domain.Task ToDomain(int id)
     {
-      return new Domain.Task() { Id = id, Title = title, Description = description };
+      return new Domain.Task()
+      {
+        Id = id,
+        Title = title,
+        Description = description,
+        TaskStatus = (Domain.Enums.TaskStatus)taskStatus,
+        DueDate = DateTime.SpecifyKind(dueDate, DateTimeKind.Utc)
+      };
     }
   }
 
-  public record CreateTaskResponse(int id, string title, string description)
+  public record CreateTaskResponse(
+    int id,
+    string title,
+    string description,
+    int taskStatus,
+    DateTime? dueDate
+    )
   {
     public static CreateTaskResponse FromDomain(Domain.Task task)
     {
-      return new CreateTaskResponse(task.Id, task.Title, task.Description);
+      return new CreateTaskResponse(
+        task.Id,
+        task.Title,
+        task.Description,
+        (int)task.TaskStatus,
+        task.DueDate);
     }
   }
 }
